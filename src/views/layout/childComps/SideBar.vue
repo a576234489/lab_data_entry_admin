@@ -42,9 +42,9 @@
 
 <style scoped>
   .menu-head {
-    height: 35px;
-    padding: 23px 20px 8px ;
-    border-right: 1px solid #8d8c8c;
+    height: 32px;
+    padding: 14px 20px 8px ;
+
   }
   .menu-head-content {
     width: 100%;

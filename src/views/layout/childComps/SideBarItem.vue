@@ -1,7 +1,7 @@
 <template>
   <div class="menu-wrapper">
     <!--:index 这个属性是父组件中collapse default-active能生效的关键-->
-    <div v-for="item in routes" v-if="!item.hidden">
+    <div v-for="item in routes" v-if="!item.hidden" class="side-bar-one">
       <router-link v-if="hasOneShowChildren(item.children)" :to="item.path+'/'+item.children[0].path">
         <el-menu-item :index="item.path+'/'+item.children[0].path">
           <!--<svg-icon v-if="item.children[0].meta.icon" :icon-class="item.children[0].meta.icon"></svg-icon>-->

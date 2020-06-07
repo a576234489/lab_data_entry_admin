@@ -81,7 +81,7 @@ img {
 }
 
 /*侧滑菜单选中颜色及背景*/
-.sub-menu a .is-active {
+.sub-menu .router-link-active .is-active,.side-bar-one .router-link-active .is-active {
   background-color: #f3f3f3 !important;
   color: #4d83ff !important;
   border-right: 1px solid #ccc;

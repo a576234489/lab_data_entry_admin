@@ -1,28 +1,34 @@
 <template>
-  <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
-    <el-dropdown class="avatar-container" trigger="click">
-      <div class="avatar-wrapper">
-        <span class="user-name">{{this.$store.getters.nickName}}</span>
-        <i class="el-icon-caret-bottom"></i>
-      </div>
-      <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class="inlineBlock" to="/">
-          <el-dropdown-item>
-            首页
-          </el-dropdown-item>
-        </router-link>
-        <el-dropdown-item divided>
-          <span @click="handleUpdateInfo" style="display:block;">修改信息</span>
-        </el-dropdown-item>
-        <el-dropdown-item divided>
-          <span @click="handleUpdatePass" style="display:block;">修改密码</span>
-        </el-dropdown-item>
-        <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">退出</span>
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+  <div class="navbar-menu">
+    <div class="router-name">{{routerName}}</div>
+    <div class="user-info">
+      <div></div>
+      <div></div>
+      <el-menu mode="horizontal" class="menu">
+          <el-dropdown class="avatar-container" trigger="click">
+          <div class="avatar-wrapper">
+            <span class="user-name">{{this.$store.getters.nickName}}</span>
+
+          </div>
+          <el-dropdown-menu class="user-dropdown" slot="dropdown">
+            <router-link class="inlineBlock" to="/">
+              <el-dropdown-item>
+                首页
+              </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>
+              <span @click="handleUpdateInfo" style="display:block;">修改信息</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <span @click="handleUpdatePass" style="display:block;">修改密码</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <span @click="logout" style="display:block;">退出</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-menu>
+    </div>
     <el-dialog
             title="修改信息"
             :visible.sync="dialogInfoVisible"
@@ -79,7 +85,8 @@
         <el-button type="primary" @click="handlePassDialogConfirm('userPassFrom')" size="small">确 定</el-button>
       </span>
     </el-dialog>
-  </el-menu>
+  </div>
+
 </template>
 
 <script>
@@ -131,7 +138,8 @@
           ],
           nickName: [{required: true, message: '请输入昵称', trigger: 'blur'}],
           icon: [{required: true, message: '请上传头像', trigger: 'blur'}],
-        }
+        },
+        routerName:null
       }
     },
     methods:{
@@ -227,33 +235,50 @@
             return false;
           }
         })
+      },
+      handleGetRouteInfo(){
+        console.log(this.$route)
+        this.routerName = this.$route.meta.title;
+
       }
+    },
+    created(){
+      this.handleGetRouteInfo();
     },
     computed:{
       ...mapGetters(['sidebar','id'])
+    },
+    watch: {
+      $route() {
+        this.handleGetRouteInfo()
+      }
     },
   }
 </script>
 
 <style scoped>
-  .navbar{
+  .navbar-menu{
     height: 45px;
     line-height: 45px;
     border-radius: 0px !important;
+    display: flex;
+    background-color: #f3f3f3 ;
+    padding: 15px 30px;
+    justify-content: space-between;
   }
-  .navbar .hamburger-container{
+  .navbar-menu .hamburger-container{
     line-height: 55px;
     height: 45px;
     float: left;
     padding: 0 10px;
   }
-  .avatar-container{
-    height: 45px;
-    line-height: 45px;
-    display: inline-block;
-    position: absolute;
-    right: 35px;
-  }
+  /*.avatar-container{*/
+    /*height: 45px;*/
+    /*line-height: 45px;*/
+    /*display: inline-block;*/
+    /*position: absolute;*/
+    /*right: 35px;*/
+  /*}*/
   .avatar-container .avatar-wrapper{
     cursor: pointer;
     position: relative;
@@ -268,5 +293,25 @@
     right: -20px;
     top: 16px;
     font-size: 12px;
+  }
+  .router-name {
+    background-color: #fff;
+    border-radius: 25px;
+    font-size: 14px;
+    padding: 0 65px 0 20px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .user-info {
+    width: 200px;
+    height: 32px;
+    background-color: #fff;
+    border-radius: 25px;
+    font-size: 14px;
+  }
+  .user-info .menu {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 25px;
   }
 </style>

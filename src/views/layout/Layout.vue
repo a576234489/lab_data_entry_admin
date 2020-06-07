@@ -3,7 +3,7 @@
       <side-bar class="sidebar-container"></side-bar>
       <div class="nav-tag">
         <nav-bar></nav-bar>
-        <tags-view></tags-view>
+
       </div>
       <app-main></app-main>
   </div>
@@ -52,7 +52,7 @@
     overflow: hidden;
   }
   .nav-tag {
-    margin-left: 210px !important;
+    margin-left: 201px !important;
   }
   .app-main{
     margin-left: 210px !important;
@@ -68,11 +68,12 @@
     bottom: 0;
     left: 0;
     height: 100%;
-    width: 190px !important;
+    width: 200px !important;
     overflow: hidden;
     transition-duration: 0.3s;
-    transform: translate3d(0, 0, 0);
-    z-index: 999;
+      transform: translate3d(0, 0, 0);
+    z-index: 99;
+    border-right: 1px solid #8d8c8c;
   }
   .hideSideBar .sidebar-container{
     width: 36px !important;
