@@ -1,22 +1,23 @@
 <template>
   <div class="app-container">
-    <el-card>
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-        <el-button
-                style="float:right"
-                type="primary"
-                @click="handleSearchList()"
-                size="small">
-          查询搜索
-        </el-button>
-        <el-button
-                style="float:right;margin-right: 15px"
-                @click="handleResetSearch()"
-                size="small">
-          重置
-        </el-button>
+    <el-card class="main-search">
+      <div class="main-search-info">
+        <div>
+          <i class="el-icon-search"></i>
+          <span>筛选</span>
+        </div>
+        <div class="main-search-info">
+          <el-button
+                  @click="handleResetSearch()"
+                  size="small">
+            重置
+          </el-button>
+          <el-button
+                  @click="handleSearchList()"
+                  size="small">
+            搜索
+          </el-button>
+        </div>
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
@@ -39,10 +40,14 @@
       </div>
     </el-card>
     <el-card class="operate-container">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
-      <el-button size="mini" class="btn-add" @click="handleShowCategory()">资源分类</el-button>
+      <div>
+        <i class="el-icon-tickets"></i>
+        <span>数据列表</span>
+      </div>
+      <div>
+        <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
+        <el-button size="mini" class="btn-add" @click="handleShowCategory()">资源分类</el-button>
+      </div>
     </el-card>
     <div class="table-container">
       <el-table
@@ -80,18 +85,22 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="pagination-container">
-      <el-pagination
-              background
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              layout="total, sizes,prev, pager, next,jumper"
-              :current-page.sync="listQuery.pageNum"
-              :page-size="listQuery.pageSize"
-              :page-sizes="[10,15,20]"
-              :total="total">
-      </el-pagination>
+    <div class="batch-operate-container">
+      <div></div>
+      <div class="pagination-container">
+        <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                layout="total, sizes,prev, pager, next,jumper"
+                :current-page.sync="listQuery.pageNum"
+                :page-size="listQuery.pageSize"
+                :page-sizes="[10,15,20]"
+                :total="total">
+        </el-pagination>
+      </div>
     </div>
+
     <el-dialog
             :title="isEdit?'编辑资源':'添加资源'"
             :visible.sync="dialogEditVisible"
@@ -310,18 +319,5 @@
 </script>
 
 <style scoped>
-  .app-container {
-    padding: 25px;
-  }
-  .operate-container{
-    margin-top: 20px;
-  }
-  .operate-container .btn-add{
-    float: right;
-  }
-  .pagination-container {
-    display: inline-block;
-    float: right;
-    margin-top: 20px;
-  }
+
 </style>

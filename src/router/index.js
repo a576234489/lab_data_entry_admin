@@ -13,6 +13,7 @@ const Role = ()=>import('views/role/Role')
 const ResourceCategory = ()=>import('views/resourceCategory/ResourceCategory')
 const Resource = ()=>import('views/resource/Resource')
 const Menu = ()=>import('views/menu/Menu')
+const ApplicationScenario = ()=>import('views/applicationScenario/ApplicationScenario')
 
 
 
@@ -136,6 +137,20 @@ export const asyncRouterMap = [
         name: 'menu',
         component:Menu,
         meta: {title: '菜单列表', icon: 'gen'}
+      },
+    ]
+  },
+  {
+    path:'/applicationScenarioManagement',
+    component:Layout,
+    meta:{title:'应用场景管理',icon:'home'},
+    name:'applicationScenarioManagement',
+    children:[
+      {
+        path:'applicationScenario',
+        component:ApplicationScenario,
+        name:'applicationScenario',
+        meta:{title:'应用场景',icon:'gen'},
       },
     ]
   }

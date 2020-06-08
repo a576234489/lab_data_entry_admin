@@ -1,26 +1,27 @@
 <template>
   <div class="app-container">
-    <el-card>
-      <div>
-        <i class="el-icon-search"></i>
-        <span style="margin-left: 2px">筛选搜索</span>
-        <el-button
-                style="float: right"
-                type="primary"
-                size="small"
-                @click="handleSearchList()"
-        >
-          查询搜索
-        </el-button>
-        <el-button
-                style="float: right;margin-right: 15px"
-                size="small"
-                @click="handleResetSearch()"
-        >
-          重置
-        </el-button>
+    <el-card class="main-search">
+      <div class="main-search-info">
+        <div>
+          <i class="el-icon-search"></i>
+          <span style="margin-left: 2px">筛选</span>
+        </div>
+        <div class="main-search-info">
+          <el-button
+                  size="small"
+                  @click="handleResetSearch()"
+          >
+            重置
+          </el-button>
+          <el-button
+                  size="small"
+                  @click="handleSearchList()"
+          >
+            搜索
+          </el-button>
+        </div>
       </div>
-      <div style="margin-top: 15px">
+      <div style="margin-top: 15px" >
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="账号名:">
             <el-input style="width: 203px" v-model="listQuery.username" placeholder="账户名" clearable></el-input>
@@ -52,18 +53,23 @@
       </div>
     </el-card>
     <el-card class="operate-container" style="position: relative">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button  style="margin:0 0 0 20px;float: left;position: absolute;bottom: 13px" type="primary" size="small" icon="el-icon-document" @click="handleDownloadExcel">
-        Export Excel
-      </el-button>
-      <el-button
-              class="btn-add"
-              size="mini"
-              @click="handleAdd()"
-      >
-        添加
-      </el-button>
+      <div>
+        <i class="el-icon-tickets"></i>
+        <span>数据列表</span>
+        <el-button class="export-excel" icon="el-icon-document" size="small" @click="handleDownloadExcel">
+          Export Excel
+        </el-button>
+      </div>
+      <div>
+        <el-button
+                class="btn-add"
+                size="mini"
+                @click="handleAdd()"
+        >
+          添加
+        </el-button>
+      </div>
+
     </el-card>
     <div class="table-container">
       <el-table
@@ -126,40 +132,42 @@
       </el-table>
     </div>
     <div class="batch-operate-container">
-      <el-select
-              size="small"
-              v-model="operateType" placeholder="批量操作"
-      >
-        <el-option
-                v-for="item in operates"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+      <div>
+        <el-select
+                size="small"
+                v-model="operateType" placeholder="批量操作"
         >
-        </el-option>
-      </el-select>
-      <el-button
-              style="margin-left: 12px"
-              class="search-button"
-              type="primary"
-              size="small"
-              @click="handleBatchOperate()"
-      >
-        确定
-      </el-button>
+          <el-option
+                  v-for="item in operates"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+          >
+          </el-option>
+        </el-select>
+        <el-button
+                class="batch-button"
+                type="primary"
+                size="small"
+                @click="handleBatchOperate()"
+        >
+          确定
+        </el-button>
+      </div>
+      <div class="pagination-container">
+        <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                layout="total, sizes,prev, pager, next,jumper"
+                :page-size="listQuery.pageSize"
+                :page-sizes="[5,10,15]"
+                :current-page.sync="listQuery.pageNum"
+                :total="total">
+        </el-pagination>
+      </div>
     </div>
-    <div class="pagination-container">
-      <el-pagination
-              background
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              layout="total, sizes,prev, pager, next,jumper"
-              :page-size="listQuery.pageSize"
-              :page-sizes="[5,10,15]"
-              :current-page.sync="listQuery.pageNum"
-              :total="total">
-      </el-pagination>
-    </div>
+
 
     <el-dialog
             :title="isEdit?'编辑平台账号':'添加平台账号'"
@@ -636,23 +644,8 @@
 </script>
 
 <style scoped>
-  .app-container {
-    padding: 25px;
-  }
-  .operate-container{
-    margin-top: 20px;
-  }
-  .operate-container .btn-add{
-    float: right;
-  }
-  .pagination-container {
-    display: inline-block;
-    float: right;
-    margin-top: 20px;
-  }
-  .batch-operate-container{
-    display: inline-block;
-    margin-top: 20px;
-  }
+
+
+
 
 </style>

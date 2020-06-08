@@ -1,9 +1,13 @@
 <template> 
-  <div class="app-container">
+  <div class="app-container-no-page">
     <el-card shadow="never" class="operate-container">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button size="mini" class="btn-add" @click="handleAdd()">添加</el-button>
+      <div>
+        <i class="el-icon-tickets"></i>
+        <span>数据列表</span>
+      </div>
+      <div>
+        <el-button size="mini" class="btn-add" @click="handleAdd()">添加</el-button>
+      </div>
     </el-card>
     <div class="table-container">
       <el-table
@@ -37,6 +41,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <div class="blank"></div>
     <el-dialog
             :title="isEdit?'编辑资源分类':'添加资源分类'"
             :visible.sync="dialogEditVisible"

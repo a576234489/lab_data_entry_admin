@@ -55,10 +55,10 @@
     margin-left: 201px !important;
   }
   .app-main{
-    margin-left: 210px !important;
+    margin-left: 201px !important;
     transition-duration: 0.3s;
     transform: translate3d(0, 0, 0);
-    height: calc(100% - 86px);
+    height: calc(100% - 57px);
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -73,7 +73,7 @@
     transition-duration: 0.3s;
       transform: translate3d(0, 0, 0);
     z-index: 99;
-    border-right: 1px solid #8d8c8c;
+    border-right: 1px solid #e3e3e3;
   }
   .hideSideBar .sidebar-container{
     width: 36px !important;
@@ -89,7 +89,7 @@
     margin-left: 36px !important;
     transition-duration: 0.3s;
     transform: translate3d(0, 0, 0);
-    height: calc(100% - 86px);
+    height: calc(100% - 57px);
   }
 
 </style>

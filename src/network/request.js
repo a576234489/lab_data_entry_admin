@@ -6,8 +6,8 @@ import store from '../store'
 // baseURL:'http://120.78.207.225:8234',
 export function request(config) {
   const instant = axios.create({
-    // baseURL:'http://192.168.168.45:8080',
-    baseURL:'http://localhost:8080',
+    baseURL:'http://192.168.168.45:8080',
+    // baseURL:'http://localhost:8080',
     timeout:50000
   })
   instant.interceptors.request.use(config=>{

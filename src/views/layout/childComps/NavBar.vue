@@ -2,32 +2,41 @@
   <div class="navbar-menu">
     <div class="router-name">{{routerName}}</div>
     <div class="user-info">
-      <div></div>
-      <div></div>
-      <el-menu mode="horizontal" class="menu">
-          <el-dropdown class="avatar-container" trigger="click">
-          <div class="avatar-wrapper">
-            <span class="user-name">{{this.$store.getters.nickName}}</span>
+      <div class="user-info-item">
+        <div class="message">
+          <img src="~assets/img/message.png"/>
+        </div>
+        <div class="notice">
+          <img src="~assets/img/notice.png"/>
+        </div>
+      </div>
+      <div class="user-info-item">
+        <el-image class="headPortrait" :src="this.$store.getters.headPortrait"></el-image>
 
-          </div>
-          <el-dropdown-menu class="user-dropdown" slot="dropdown">
-            <router-link class="inlineBlock" to="/">
-              <el-dropdown-item>
-                首页
+        <el-menu mode="horizontal" class="menu">
+            <el-dropdown class="avatar-container" trigger="click">
+            <div class="avatar-wrapper">
+              <span class="user-name">{{this.$store.getters.nickName}}</span>
+            </div>
+            <el-dropdown-menu class="user-dropdown" slot="dropdown">
+              <router-link class="inlineBlock" to="/">
+                <el-dropdown-item>
+                  首页
+                </el-dropdown-item>
+              </router-link>
+              <el-dropdown-item divided>
+                <span @click="handleUpdateInfo" style="display:block;">修改信息</span>
               </el-dropdown-item>
-            </router-link>
-            <el-dropdown-item divided>
-              <span @click="handleUpdateInfo" style="display:block;">修改信息</span>
-            </el-dropdown-item>
-            <el-dropdown-item divided>
-              <span @click="handleUpdatePass" style="display:block;">修改密码</span>
-            </el-dropdown-item>
-            <el-dropdown-item divided>
-              <span @click="logout" style="display:block;">退出</span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-menu>
+              <el-dropdown-item divided>
+                <span @click="handleUpdatePass" style="display:block;">修改密码</span>
+              </el-dropdown-item>
+              <el-dropdown-item divided>
+                <span @click="logout" style="display:block;">退出</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-menu>
+      </div>
     </div>
     <el-dialog
             title="修改信息"
@@ -239,7 +248,6 @@
       handleGetRouteInfo(){
         console.log(this.$route)
         this.routerName = this.$route.meta.title;
-
       }
     },
     created(){
@@ -258,12 +266,10 @@
 
 <style scoped>
   .navbar-menu{
-    height: 45px;
-    line-height: 45px;
     border-radius: 0px !important;
     display: flex;
     background-color: #f3f3f3 ;
-    padding: 15px 30px;
+    padding: 15px 30px 10px;
     justify-content: space-between;
   }
   .navbar-menu .hamburger-container{
@@ -303,15 +309,46 @@
     line-height: 32px;
   }
   .user-info {
-    width: 200px;
+    width: 220px;
     height: 32px;
     background-color: #fff;
     border-radius: 25px;
     font-size: 14px;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .message {
+    width: 40px;
+    height: 20px;
+    background-color: #4d83ff;
+    border-radius: 25px;
+  }
+  .notice {
+    width: 40px;
+    height: 20px;
+    background-color: #4d83ff;
+    border-radius: 25px;
+    margin-left: 10px
   }
   .user-info .menu {
     height: 32px;
     line-height: 32px;
     border-radius: 25px;
+  }
+  .headPortrait {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  .user-info-item {
+    display: flex;
+    align-items: center;
+  }
+  .user-info-item img {
+    width: 40px;
+    height: 20px;
   }
 </style>

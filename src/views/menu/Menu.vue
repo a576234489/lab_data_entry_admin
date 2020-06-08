@@ -1,21 +1,25 @@
 <template>
-  <div class="app-container">
+  <div class="app-container-no-page">
     <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">数据列表</span>
-      <el-button
-              v-show="showBackBtn"
-              class="btn-back"
-              @click="handleBack()"
-              size="mini">
-        返回
-      </el-button>
-      <el-button
-              class="btn-add"
-              @click="handleAdd()"
-              size="mini">
-        添加
-      </el-button>
+      <div>
+        <i class="el-icon-tickets" style="margin-top: 5px"></i>
+        <span style="margin-top: 5px">数据列表</span>
+      </div>
+      <div>
+        <el-button
+                v-show="showBackBtn"
+                class="btn-back btn-add"
+                @click="handleBack()"
+                size="mini">
+          返回
+        </el-button>
+        <el-button
+                class="btn-add"
+                @click="handleAdd()"
+                size="mini">
+          添加
+        </el-button>
+      </div>
     </el-card>
     <div class="table-container">
       <el-table
@@ -77,7 +81,9 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="pagination-container">
+    <div class="batch-operate-container">
+      <div></div>
+      <div class="pagination-container">
       <el-pagination
               background
               @size-change="handleSizeChange"
@@ -88,6 +94,7 @@
               :current-page.sync="listQuery.pageNum"
               :total="total">
       </el-pagination>
+    </div>
     </div>
     <el-dialog
             :title="isEdit?'编辑菜单':'添加菜单'"
