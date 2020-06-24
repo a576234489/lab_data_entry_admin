@@ -14,7 +14,10 @@ const ResourceCategory = ()=>import('views/resourceCategory/ResourceCategory')
 const Resource = ()=>import('views/resource/Resource')
 const Menu = ()=>import('views/menu/Menu')
 const ApplicationScenario = ()=>import('views/applicationScenario/ApplicationScenario')
-
+const DataRecord = ()=>import('views/dataRecord/DataRecord')
+const DataRecordAudit = ()=>import('views/dataRecordAudit/DataRecordAudit')
+const DataRecordViewAudit = ()=>import('views/dataRecordViewAudit/DataRecordViewAudit')
+const DataQueryStatistics = ()=>import('views/dataQueryStatistics/DataQueryStatistics')
 
 
 
@@ -151,6 +154,54 @@ export const asyncRouterMap = [
         component:ApplicationScenario,
         name:'applicationScenario',
         meta:{title:'应用场景',icon:'gen'},
+      },
+    ]
+  },
+  {
+    path:'/dataRecordManagement',
+    component:Layout,
+    meta:{title:'数据记录管理',icon:'home'},
+    name:'dataRecordManagement',
+    children:[
+      {
+        path:'dataRecord',
+        component:DataRecord,
+        name:'dataRecord',
+        meta:{title:'数据记录',icon:'gen'},
+      },
+    ]
+  },
+  {
+    path:'/auditManagement',
+    component:Layout,
+    meta:{title:'审核管理',icon:'home'},
+    name:'auditManagement',
+    children:[
+      {
+        path:'dataRecordAudit',
+        component:DataRecordAudit,
+        name:'dataRecordAudit',
+        meta:{title:'数据记录提交审核',icon:'gen'},
+      },
+      {
+        path:'dataRecordViewAudit',
+        component:DataRecordViewAudit,
+        name:'dataRecordViewAudit',
+        meta:{title:'数据记录查看审核',icon:'gen'},
+      },
+    ]
+  },
+  {
+    path:'/dataQueryStatisticsManagement',
+    component:Layout,
+    meta:{title:'数据查询统计管理',icon:'home'},
+    name:'dataQueryStatisticsManagement',
+    children:[
+      {
+        path:'dataQueryStatistics',
+        component:DataQueryStatistics,
+        name:'dataQueryStatistics',
+        meta:{title:'数据查询统计',icon:'gen'},
       },
     ]
   }

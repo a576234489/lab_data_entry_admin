@@ -49,3 +49,27 @@ export const commonMixin = {
     },
   }
 }
+
+export const applicationScenarioMixin = {
+  data(){
+    return {
+      paramForAddData: {
+        scenes: [],
+        grounds: [],
+        environments: [],
+        microwaveSources: [],
+        effectors: [],
+        backDoors: [],
+        fourDTypes: []
+      },
+    }
+  },
+  created(){
+    this.handleGetParamForAdd();
+  },
+  methods: {
+
+  },
+  filters:{
+  }
+}

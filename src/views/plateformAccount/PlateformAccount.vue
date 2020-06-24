@@ -102,10 +102,10 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间"  align="center" :sortable="true" :sort-method="sortByDate">
+        <el-table-column label="创建时间"  align="center" :sortable="true" :sort-method="sortByDate" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{scope.row.createTime | formatCreateTime}}</template>
         </el-table-column>
-        <el-table-column label="最后登录时间"  align="center" :sortable="true" :sort-method="sortByDate">
+        <el-table-column label="最后登录时间"  align="center" :sortable="true" :sort-method="sortByDate" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{scope.row.loginTime | formatCreateTime}}</template>
         </el-table-column>
         <el-table-column label="操作" width="235" align="center">
@@ -366,6 +366,14 @@
           this.listLoading = false;
           this.list = res.data.list;
           this.total = res.data.total;
+          if(this.list.length == 0){
+            this.listLoading = true;
+            fetchGetList(this.listQuery).then(res => {
+              this.listLoading = false;
+              this.list = res.data.list;
+              this.total = res.data.total;
+            })
+          }
         })
       },
       handleStatusChange(index,row){

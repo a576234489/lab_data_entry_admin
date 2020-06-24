@@ -30,7 +30,8 @@ router.beforeEach((to,from,next)=>{
     if(whiteList.indexOf(to.path) !== -1){//要跳转的路径在白名单中存在
       next();
     }else{//不存在
-      handleLogin();
+      // handleLogin();
+      next('/login')
     }
   }
 })

@@ -5,11 +5,12 @@
         autoComplete="on"
         :model="loginForm"
         label-position="left"
+        class="login-form"
       >
         <div style="text-align: center">
-          <img src="~assets/img/laboratory_icon.png" style="width: 56px;height: 56px;background-image: none;">
+          <img src="~assets/img/login.png" style="width: 56px;height: 56px;background-image: none;">
         </div>
-        <h2 class="login-title color-main">实验室后台管理系统</h2>
+        <h2 class="login-title color-main">实验室数据录入系统</h2>
         <el-form-item>
           <el-input
             name="username"
