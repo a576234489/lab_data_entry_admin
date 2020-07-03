@@ -10,12 +10,14 @@
           <el-button
                   size="small"
                   @click="handleResetSearch()"
+                  class="shadow-button"
           >
             重置
           </el-button>
           <el-button
                   size="small"
                   @click="handleSearchList()"
+                  class="shadow-button"
           >
             搜索
           </el-button>
@@ -87,6 +89,8 @@
               style="width: 100%"
               v-loading="listLoading"
               border
+              :row-class-name="tableRowClassName"
+              :header-cell-style="tableHeaderColor"
       >
         <el-table-column type="selection" width="60" align="center"></el-table-column>
         <el-table-column label="编号" width="100" align="center" :sortable="true" :sort-method="sortByDate">
@@ -119,7 +123,8 @@
               <el-button
                       :disabled="scope.row.status != 1"
                       size="mini"
-                      type="text"
+                      type="primary"
+                      class="shadow-button"
                       @click="handleAuth(scope.$index, scope.row)">审批
               </el-button>
             </p>
@@ -226,6 +231,18 @@
       this.handleGetList();
     },
     methods: {
+      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0) {
+          return 'color: #000;font-weight:500;font-size:14px;font-weight:700;text-align:center'
+        }
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex % 2 == 1) {
+          return 'warning-row';
+        } else {
+          return 'success-row';
+        }
+      },
       handleSearchList(){
         this.listQuery.pageNum = 1;
         this.handleGetList()
@@ -258,6 +275,7 @@
         this.auditParam = JSON.parse(JSON.stringify(defaultAuditParam));
         this.auditParam.id = row.id;
         this.auditParam.applicationScenarioId = row.applicationScenarioId;
+        this.auditParam.scenarioRelationId = row.scenarioRelationId;
         this.auditParam.submitUmsId = row.submitUmsId;
         this.auditDialog = true;
       },

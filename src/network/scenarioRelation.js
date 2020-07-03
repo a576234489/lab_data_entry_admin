@@ -14,3 +14,10 @@ export function fetchCreate(data) {
     data: data
   })
 }
+export function fetchGetById(params) {
+  return request({
+    url:"/scenarioRelation/getById",
+    method:'get',
+    params: params
+  })
+}

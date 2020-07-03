@@ -9,12 +9,14 @@
         <div class="main-search-info">
           <el-button
                   size="small"
+                  class="shadow-button"
                   @click="handleResetSearch()"
           >
             重置
           </el-button>
           <el-button
                   size="small"
+                  class="shadow-button"
                   @click="handleSearchList()"
           >
             搜索
@@ -65,9 +67,6 @@
       <div>
         <i class="el-icon-tickets"></i>
         <span>数据记录</span>
-        <el-button class="export-excel" @click="handleApplyExport(1,1)" icon="el-icon-document" size="small" v-show="roleName == '指导员'">
-          Export Excel
-        </el-button>
       </div>
 
     </el-card>
@@ -77,6 +76,8 @@
               style="width: 100%"
               v-loading="listLoading"
               border
+              :row-class-name="tableRowClassName"
+              :header-cell-style="tableHeaderColor"
       >
         <el-table-column type="selection" width="60" align="center"></el-table-column>
         <el-table-column label="编号" width="100" align="center" :sortable="true" :sort-method="sortByDate">
@@ -85,43 +86,39 @@
         <el-table-column label="应用场景名称" width="150" align="center">
           <template slot-scope="scope">{{scope.row.scenarioName}}</template>
         </el-table-column>
-        <el-table-column label="实验报告" width="250" align="center">
+        <el-table-column label="实验名称" width="150" align="center">
+          <template slot-scope="scope">{{scope.row.experimentName}}</template>
+        </el-table-column>
+        <el-table-column label="实验报告" width="150" align="center">
           <template slot-scope="scope">{{scope.row.experimentReport}}</template>
         </el-table-column>
         <el-table-column label="提交人姓名" width="150" align="center">
           <template slot-scope="scope">{{scope.row.userName}}</template>
         </el-table-column>
-        <el-table-column label="提交日期"  align="center" :show-overflow-tooltip="true">
+        <el-table-column label="提交日期"  width="150" align="center" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{scope.row.submitTime | formatCreateTime}}</template>
         </el-table-column>
         <el-table-column label="审核人姓名" width="150" align="center">
           <template slot-scope="scope">{{scope.row.auditName}}</template>
         </el-table-column>
-        <el-table-column label="审核日期"  align="center" :show-overflow-tooltip="true">
+        <el-table-column label="审核日期" width="150" align="center" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{scope.row.auditTime | formatCreateTime}}</template>
         </el-table-column>
-        <el-table-column label="操作"  align="center" width="185px">
+        <el-table-column label="操作"  align="center" width="145px">
           <template slot-scope="scope">
             <p>
               <el-button
                       v-show="scope.row.adminScenarioType == 2 || roleName == '指导员'"
                       size="mini"
-                      type="text"
+                      class="shadow-button"
                       @click="handleShow(scope.$index, scope.row)">查看
               </el-button>
               <el-button
                       v-show="scope.row.adminScenarioType != 2 && roleName != '指导员'"
                       :disabled="scope.row.adminScenarioType == 1"
                       size="mini"
-                      type="text"
+                      class="shadow-button"
                       @click="handleApplyView(scope.$index, scope.row)">申请查看
-              </el-button>
-              <el-button
-                      v-show="scope.row.adminScenarioType != 2"
-                      :disabled="scope.row.adminScenarioType == 1"
-                      size="mini"
-                      type="text"
-                      @click="handleApplyExport(scope.$index, scope.row)">申请导出
               </el-button>
             </p>
           </template>
@@ -171,18 +168,24 @@
       </div>
     </el-dialog>
     <el-dialog
-            :title="applicationScenarioData.scenarioName"
+            :title="scenarioRelationData.type == 1? '查看数据记录':'查看效能评估'"
             :visible.sync="dataShowDialog"
             :append-to-body='true'
-            width="40%"
+            width="60%"
             class="data-show-dialog"
     >
-      <data-show
-              :applicationScenarioData="applicationScenarioData"
-      >
-      </data-show>
+      <div style="max-height:405px;overflow-y: scroll;" class="content">
+        <div class="param-show-one">
+          <span>实验名称：{{this.scenarioRelationData.experimentName}}</span>
+          <span>场景名称：{{this.scenarioRelationData.scenarioName}}</span>
+        </div>
+        <data-show-no-bar
+                :applicationScenarioData="applicationScenarioData"
+        >
+        </data-show-no-bar>
+      </div>
       <div class="dialog-footer" style="text-align: center;">
-        <el-button size="small" @click="handleGoDataRecordDialog()" class="next-step data-record dialog-footer-show" >{{this.applicationScenarioData.type==1?'查看实验数据记录':'查看实验效能评估'}}</el-button>
+        <el-button size="small" @click="handleGoDataRecordDialog()" class="next-step data-record dialog-footer-show" >{{this.scenarioRelationData.type==1?'查看实验数据记录':'查看实验效能评估'}}</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -198,6 +201,7 @@
               :paramForAddData = "paramForAddData"
               scenarioType="2"
               :applicationScenarioDataListObj = "applicationScenarioDataListObj"
+              :scenarioRelation = "scenarioRelationData"
       >
       </data-record-scenario>
     </el-dialog>
@@ -205,11 +209,12 @@
 </template>
 
 <script>
-  import {fetchGetListPage} from 'network/applicationScenario'
+  import {fetchGetListPage,fetchGetById} from 'network/applicationScenario'
+  import {fetchCreate as fetchscenarioRelationCreate,fetchGetListPage as fetchScenarioRelationGetListPage} from 'network/scenarioRelation'
   import {fetchCreateDataApply} from 'network/applyData'
   import {columnSortMixin,commonMixin,applicationScenarioMixin} from 'common/mixin'
   import {fetchGetParamForAdd} from 'network/applicationScenario'
-  import DataShow from 'components/common/dataShow/DataShow';
+  import DataShowNoBar from 'components/common/dataShow/DataShowNoBar';
   import DataRecordScenario from 'views/applicationScenario/childComp/DataRecordScenario';
   let formatDate = require("common/utils");
   const defaultListQuery = {
@@ -239,6 +244,7 @@
         listLoading: true,
         total: null,
         list: null,
+        scenarioRelationData: {},
         applyViewDialog: false,
         applicationScenarioData: {},
         applicationScenarioDataListObj: {},
@@ -250,6 +256,19 @@
       this.handleGetList();
     },
     methods: {
+      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0) {
+          return 'color: #000;font-weight:500;font-size:14px;font-weight:700;text-align:center'
+        }
+      },
+
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex % 2 == 1) {
+          return 'warning-row';
+        } else {
+          return 'success-row';
+        }
+      },
       handleApplyExport(index,row) {
         this.$message({
           message:'开发中',
@@ -260,50 +279,96 @@
       handleGoDataRecordDialog(){
         this.dataShowDialog = false;
         this.dataRecordDialog = true;
+        setTimeout(()=>{
+          this.$refs.dataRecordScenarioChild.handleGetApplicationScenarioData();},200)
       },
       handleShow(index,row){
-        console.log(11)
-        this.applicationScenarioData = JSON.parse(JSON.stringify(row));
-        //设置场景类型名称
-        this.paramForAddData.scenes.find( item => {
-          if(item.id == row.sceneId){
-            this.applicationScenarioData.sceneName = item.name
-          }
+        fetchGetById({id:row.scenarioId}).then(res => {
+          this.applicationScenarioData = res.data;
+          //设置场景类型名称
+          this.paramForAddData.scenes.find( item => {
+            if(item.id == this.applicationScenarioData.sceneId){
+              this.applicationScenarioData.sceneName = item.name
+              console.log("xx")
+            }
+          })
+          //设置地面类型名称
+          this.paramForAddData.grounds.find( item => {
+            if(item.id == this.applicationScenarioData.groundId){
+              this.applicationScenarioData.groundName = item.name
+            }
+          })
+          //设置环境类型
+          this.paramForAddData.environments.find( item => {
+            if(item.id == this.applicationScenarioData.environmentId){
+              this.applicationScenarioData.environmentName = item.name
+            }
+          })
+          //设置微波源类别
+          this.paramForAddData.microwaveSources.find( item => {
+            if(item.id == this.applicationScenarioData.microwaveSourceId){
+              this.applicationScenarioData.microwaveSourceName = item.name
+            }
+          })
+          //设置效应物
+          this.paramForAddData.effectors.find( item => {
+            if(item.id == this.applicationScenarioData.effectorId){
+              this.applicationScenarioData.effectorNameType = item.name
+            }
+          })
+          //设置后门类型
+          this.paramForAddData.backDoors.find( item => {
+            if(item.id == this.applicationScenarioData.backDoorId){
+              this.applicationScenarioData.backDoorName = item.name
+            }
+          })
+          //设置频率单位s
+          this.paramForAddData.frequencies.find( item => {
+            if(item.id == this.applicationScenarioData.frequencyId){
+              this.applicationScenarioData.frequencyName = item.name
+            }
+          })
+          //设置功率单位
+          this.paramForAddData.powers.find( item => {
+            if(item.id == this.applicationScenarioData.powerId){
+              this.applicationScenarioData.powerName = item.name
+            }
+          })
+          //设置脉宽单位
+          this.paramForAddData.pwms.find( item => {
+            if(item.id == this.applicationScenarioData.pwmId){
+              this.applicationScenarioData.pwmName = item.name
+            }
+          })
+          //设置距离单位
+          this.paramForAddData.distances.find( item => {
+            if(item.id == this.applicationScenarioData.distanceId){
+              this.applicationScenarioData.distanceName = item.name
+            }
+          })
+          //设置工作频率单位
+          this.paramForAddData.frequencies.find( item => {
+            if(item.id == this.applicationScenarioData.workingFrequencyId){
+              this.applicationScenarioData.workingFrequencyName = item.name
+            }
+          })
+          //设置带宽单位
+          this.paramForAddData.frequencies.find( item => {
+            if(item.id == this.applicationScenarioData.bandwidthId){
+              this.applicationScenarioData.bandwidthName = item.name
+            }
+          })
+          //设置带宽单位
+          this.paramForAddData.angles.find( item => {
+            if(item.id == this.applicationScenarioData.angleId){
+              this.applicationScenarioData.angleName = item.name
+            }
+          })
+          this.applicationScenarioDataListObj = {};
+          this.dataShowDialog = true;
+          Object.assign(this.applicationScenarioDataListObj,this.applicationScenarioData );
         })
-        //设置地面类型名称
-        this.paramForAddData.grounds.find( item => {
-          if(item.id == row.groundId){
-            this.applicationScenarioData.groundName = item.name
-          }
-        })
-        //设置环境类型
-        this.paramForAddData.environments.find( item => {
-          if(item.id == row.environmentId){
-            this.applicationScenarioData.environmentName = item.name
-          }
-        })
-        //设置微波源类别
-        this.paramForAddData.microwaveSources.find( item => {
-          if(item.id == row.microwaveSourceId){
-            this.applicationScenarioData.microwaveSourceName = item.name
-          }
-        })
-        //设置效应物
-        this.paramForAddData.effectors.find( item => {
-          if(item.id == row.effectorId){
-            this.applicationScenarioData.effectorNameType = item.name
-          }
-        })
-        //设置后门类型
-        this.paramForAddData.backDoors.find( item => {
-          if(item.id == row.backDoorId){
-            this.applicationScenarioData.backDoorName = item.name
-          }
-        })
-
-        this.applicationScenarioDataListObj = {};
-        this.dataShowDialog = true;
-        Object.assign(this.applicationScenarioDataListObj,this.applicationScenarioData );
+        this.scenarioRelationData = row;
       },
       handleSearchList(){
         this.listQuery.pageNum = 1;
@@ -315,13 +380,13 @@
       handleGetList(){
         this.listLoading = true;
         this.listQuery.userId = this.$store.getters.id;
-        fetchGetListPage(this.listQuery).then(res => {
+        fetchScenarioRelationGetListPage(this.listQuery).then(res => {
           this.listLoading = false;
           this.list = res.data.list;
           this.total = res.data.total;
           if(this.list.length == 0){
             this.listLoading = true;
-            fetchGetListPage(this.listQuery).then(res => {
+            fetchScenarioRelationGetListPage(this.listQuery).then(res => {
               this.listLoading = false;
               this.list = res.data.list;
               this.total = res.data.total;
@@ -346,7 +411,9 @@
       },
       handleApplyView(index,row){
         this.applyViewParam = JSON.parse(JSON.stringify(defaultApplyViewParam));
-        this.applyViewParam.applicationScenarioId = row.id;
+        this.applyViewParam.applicationScenarioId = row.scenarioId;
+        this.applyViewParam.scenarioRelationId = row.id;
+        this.applyViewParam.experimentName = row.experimentName
         this.applyViewParam.applicationScenarioName = row.scenarioName;
         this.applyViewDialog = true;
       },
@@ -382,13 +449,21 @@
     },
     mixins: [columnSortMixin,commonMixin,applicationScenarioMixin],
     components:{
-      DataShow,
+      DataShowNoBar,
       DataRecordScenario
     }
   }
 </script>
 
 <style scoped>
+  .param-show-one {
+    display: flex;
+    font-weight: 500;
+    color: #999999;
+  }
+  .param-show-one > span{
+    flex: 1;
+  }
   .data-content {
     position: relative;
     top: -20px;

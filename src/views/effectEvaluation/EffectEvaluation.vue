@@ -18,7 +18,6 @@
                   size="small"
                   @click="handleSearchList()"
                   class="shadow-button"
-                  type="primary"
           >
             搜索
           </el-button>
@@ -49,13 +48,13 @@
     <el-card class="operate-container" style="position: relative">
       <div>
         <i class="el-icon-tickets"></i>
-        <span>数据记录</span>
+        <span>效能评估</span>
       </div>
       <div>
         <el-button
+                class="shadow-button"
                 size="mini"
                 @click="handleAdd()"
-                class="shadow-button"
         >
           添加
         </el-button>
@@ -67,9 +66,9 @@
               style="width: 100%"
               v-loading="listLoading"
               @selection-change="handleScenarioSelectionChange"
+              border
               :row-class-name="tableRowClassName"
               :header-cell-style="tableHeaderColor"
-              border
       >
         <el-table-column type="selection" width="60" align="center"></el-table-column>
         <el-table-column label="编号" width="100" align="center" :sortable="true" :sort-method="sortByDate">
@@ -100,8 +99,8 @@
               </el-button>
               <el-button
                       size="mini"
-                      type="danger"
                       class="shadow-button"
+                      type="danger"
                       @click="handleDelete(scope.$index, scope.row)">删除
               </el-button>
             </p>
@@ -146,20 +145,20 @@
       </div>
     </div>
     <el-dialog
-    :title="scenarioRelation.type == 2?'实验效能评估':'实验数据记录'"
-    :visible.sync="dataRecordDialog"
-    :append-to-body='true'
-    width="80%"
-    class="data-record-dialog"
-    :close-on-click-modal = 'false'
+            :title="scenarioRelation.type == 2?'实验效能评估':'实验效能评估'"
+            :visible.sync="dataRecordDialog"
+            :append-to-body='true'
+            width="80%"
+            class="data-record-dialog"
+            :close-on-click-modal = 'false'
     >
       <data-record-scenario
-      :applicationScenarioData="applicationScenarioData"
-      ref="dataRecordScenarioChild"
-      :paramForAddData = "paramForAddData"
-      :applicationScenarioDataListObj = "applicationScenarioDataListObj"
-      scenarioType="1"
-      :scenarioRelation = "scenarioRelation"
+              :applicationScenarioData="applicationScenarioData"
+              ref="dataRecordScenarioChild"
+              :paramForAddData = "paramForAddData"
+              :applicationScenarioDataListObj = "applicationScenarioDataListObj"
+              scenarioType="1"
+              :scenarioRelation = "scenarioRelation"
       >
       </data-record-scenario>
       <div class="dialog-footer">
@@ -168,31 +167,32 @@
       </div>
     </el-dialog>
     <el-dialog
-            :title="isDataAdd?'添加数据记录':'查看数据记录'"
+            :title="isDataAdd?'添加效能评估':'查看效能评估'"
             :visible.sync="dataShowDialog"
             :append-to-body='true'
             width="60%"
             class="data-show-dialog"
+
     >
       <div style="max-height:405px;overflow-y: scroll;" class="content">
         <el-form
                 :model="applicationScenarioData"
         >
-            <div class="param-one-data">
-              <el-form-item label="实验名称" class="scenario-form-input-item">
-                <el-input placeholder="实验名称" v-model="scenarioRelation.experimentName"  clearable class="mid-input" :disabled="isDataAdd?false:true"></el-input>
-              </el-form-item>
-              <el-form-item label="场景类型" class="scenario-form-input-item scenario-form-input-item-first">
-                <el-select v-model="scenarioRelation.scenarioId"  clearable  class="mid-input" :disabled="isDataAdd?false:true">
-                  <el-option
-                          v-for="(item,index) in applicationScenarioList"
-                          :key="index"
-                          :label="item.scenarioName"
-                          :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
+          <div class="param-one-data">
+            <el-form-item label="实验名称" class="scenario-form-input-item">
+              <el-input placeholder="实验名称" v-model="scenarioRelation.experimentName"  clearable class="mid-input" :disabled="isDataAdd?false:true"></el-input>
+            </el-form-item>
+            <el-form-item label="场景类型" class="scenario-form-input-item scenario-form-input-item-first">
+              <el-select v-model="scenarioRelation.scenarioId"  clearable  class="mid-input" :disabled="isDataAdd?false:true">
+                <el-option
+                        v-for="(item,index) in applicationScenarioList"
+                        :key="index"
+                        :label="item.scenarioName"
+                        :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
         </el-form>
         <data-show-no-bar
                 v-show="isShowData"
@@ -201,8 +201,53 @@
         </data-show-no-bar>
       </div>
       <div class="dialog-footer" v-show="scenarioRelation.scenarioId">
-        <el-button size="small" @click="handleGoDataRecordDialog(1)" class="next-step data-record"  v-if="isDataAdd">进行实验数据记录</el-button>
-        <el-button size="small" @click="handleGoDataRecordDialog()" class="next-step data-record"  v-if="!isDataAdd">查看实验数据记录</el-button>
+        <el-button size="small" @click="handleGoDataRecordDialog(2)" class="next-step data-record"  v-if="isDataAdd">进行实验效能评估</el-button>
+        <el-button size="small" @click="handleGoDataRecordDialog()" class="next-step data-record"  v-if="!isDataAdd">查看实验效能评估</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+            :title="dropDownTitle"
+            :visible.sync="dropDownDialog"
+            :append-to-body='true'
+            width="28%"
+            class="data-record-update-dialog"
+    >
+      <div class="drop-down-data">
+        <el-form
+                :model="ground"
+                class="record-update-form"
+        >
+          <el-form-item label="地面名称" class="scenario-form-input-item">
+            <el-input placeholder="填写地面名称" v-model="ground.name"  clearable class="long-input"></el-input>
+          </el-form-item>
+          <el-form-item label="导电率" class="scenario-form-input-item">
+            <el-input placeholder="填写导电率" v-model="ground.conductivity"  clearable class="long-input"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="dialog-footer" style="text-align: center;">
+        <el-button size="small" @click="handleAddDropDown" class="next-step" >确定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+            :title="dropDownEnvironmentTitle"
+            :visible.sync="dropDownEnvironmentDialog"
+            :append-to-body='true'
+            width="28%"
+            class="data-record-update-dialog"
+    >
+      <div class="drop-down-data">
+        <el-form
+                :model="environment"
+                class="record-update-form"
+        >
+          <el-form-item label="环境名称" class="scenario-form-input-item">
+            <el-input placeholder="填写环境名称" v-model="environment.name"  clearable class="long-input"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="dialog-footer" style="text-align: center;">
+        <el-button size="small" @click="handleAddEnvironmentDropDown" class="next-step" >确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -225,7 +270,7 @@
     submitStart:null,
     submitEnd: null,
     type: 1,
-    scenarioRelationType:1,
+    scenarioRelationType:2,
     umsId: null
   };
   const defaultApplicationScenarioData = {
@@ -310,7 +355,7 @@
     status: 1,
   };
   export default {
-    name: "DataRecord",
+    name: "EffectEvaluation",
     data(){
       return {
         listQuery: JSON.parse(JSON.stringify(defaultListQuery)),
@@ -380,7 +425,7 @@
       handleAdd(){
         this.isDataAdd = true;
         this.scenarioRelation =  JSON.parse(JSON.stringify(defaultScenarioRelation)),
-        this.dataShowDialog = true;
+            this.dataShowDialog = true;
       },
       handleGetScenarioByUserId(){
         let umsId = this.$store.getters.id;
@@ -425,7 +470,7 @@
             this.applicationScenarioData.backDoorName = item.name
           }
         })
-        //设置频率单位s
+//设置频率单位s
         this.paramForAddData.frequencies.find( item => {
           if(item.id == this.applicationScenarioData.frequencyId){
             this.applicationScenarioData.frequencyName = item.name
@@ -752,7 +797,7 @@
     display: flex;
   }
   .param-one-data > div {
-   flex: 1;
+    flex: 1;
   }
   .measure-module .param-one,.measure-module .param-two,.js-module .param-one,.js-module .param-two {
     display: flex;

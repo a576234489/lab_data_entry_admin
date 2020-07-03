@@ -45,54 +45,83 @@
         <div class="scenario-data-data scenario-data-data-fs">
           <div>
             <el-form-item label="定耦耦合度" class="scenario-form-input-item">
-              <el-input placeholder="定耦耦合度" v-model="applicationScenarioDataListObj.fsCouplingDegree"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="定耦耦合度" v-model="applicationScenarioDataListObj.fsCouplingDegree"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="电缆衰减" class="scenario-form-input-item">
-              <el-input placeholder="电缆衰减" v-model="applicationScenarioDataListObj.fsCableAttenuation"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="电缆衰减" v-model="applicationScenarioDataListObj.fsCableAttenuation"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="衰减器" class="scenario-form-input-item">
-              <el-input placeholder="衰减器" v-model="applicationScenarioDataListObj.fsAttenuator"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="衰减器" v-model="applicationScenarioDataListObj.fsAttenuator"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="方向角" class="scenario-form-input-item">
-              <el-input placeholder="方向角" v-model="applicationScenarioDataListObj.fsBearing"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="方向角" v-model="applicationScenarioDataListObj.fsBearing"  clearable class="mid-input-little unit-input unit-input-angle">
+                <template slot="append">°</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="俯仰角" class="scenario-form-input-item">
-              <el-input placeholder="俯仰角" v-model="applicationScenarioDataListObj.fsPitchAngle"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="俯仰角" v-model="applicationScenarioDataListObj.fsPitchAngle"  clearable class="mid-input-little  unit-input unit-input-angle">
+                <template slot="append">°</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="距离" class="scenario-form-input-item">
-              <el-input placeholder="距离" v-model="applicationScenarioDataListObj.distance"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="距离" v-model="applicationScenarioDataListObj.distance"  clearable class="mid-input-little unit-select-input">
+                <template slot="append">
+                  <el-select v-model="applicationScenarioDataListObj.distanceId"  clearable   @change="handleChange($event)">
+                    <el-option
+                            v-for="(item,index) in paramForAddData.distances"
+                            :key="index"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-input>
             </el-form-item>
           </div>
         </div>
         <div class="scenario-data-data scenario-data-data-js">
           <div>
             <el-form-item label="定耦耦合度" class="scenario-form-input-item">
-              <el-input placeholder="定耦耦合度" v-model="applicationScenarioDataListObj.jsCouplingDegree"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="定耦耦合度" v-model="applicationScenarioDataListObj.jsCouplingDegree"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="电缆衰减" class="scenario-form-input-item">
-              <el-input placeholder="电缆衰减" v-model="applicationScenarioDataListObj.jsCableAttenuation"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="电缆衰减" v-model="applicationScenarioDataListObj.jsCableAttenuation"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="衰减器" class="scenario-form-input-item">
-              <el-input placeholder="衰减器" v-model="applicationScenarioDataListObj.jsAttenuator"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="衰减器" v-model="applicationScenarioDataListObj.jsAttenuator"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="天线增益" class="scenario-form-input-item">
-              <el-input placeholder="天线增益" v-model="applicationScenarioDataListObj.jsAntennaGain"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="天线增益" v-model="applicationScenarioDataListObj.jsAntennaGain"  clearable class="mid-input-little unit-input">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
@@ -104,53 +133,90 @@
         <div class="scenario-data-data">
           <div>
             <el-form-item label="样本" class="scenario-form-input-item">
-              <el-input placeholder="样本" v-model="applicationScenarioDataListObj.sampleNo"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="样本" v-model="applicationScenarioDataListObj.sampleNo"  clearable class="mid-input-little"  @input="handleChange($event)"></el-input>
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="型号" class="scenario-form-input-item">
-              <el-input placeholder="型号" v-model="applicationScenarioDataListObj.model"  clearable class="mid-input-little"></el-input>
+            <el-form-item label="型号" class="scenario-form-input-item" >
+              <el-input placeholder="型号" v-model="applicationScenarioDataListObj.model"  clearable class="mid-input-little"  @input="handleChange($event)"></el-input>
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="类别" class="scenario-form-input-item">
-              <el-input placeholder="类别" v-model="applicationScenarioDataListObj.category"  clearable class="mid-input-little"></el-input>
+            <el-form-item label="类别" class="scenario-form-input-item" >
+              <el-input placeholder="类别" v-model="applicationScenarioDataListObj.category"  clearable class="mid-input-little"  @input="handleChange($event)"></el-input>
             </el-form-item>
           </div>
         </div>
         <div class="scenario-data-data">
           <div>
             <el-form-item label="频率" class="scenario-form-input-item">
-              <el-input placeholder="频率" v-model="applicationScenarioDataListObj.frequency"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="频率" v-model="applicationScenarioDataListObj.frequency"  clearable class="mid-input-little unit-select-input" @input="handleChange($event)">
+                <template slot="append">
+                  <el-select v-model="applicationScenarioDataListObj.frequencyId"  clearable  @change="handleChange($event)">
+                    <el-option
+                            v-for="(item,index) in paramForAddData.frequencies"
+                            :key="index"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="功率" class="scenario-form-input-item">
-              <el-input placeholder="功率" v-model="applicationScenarioDataListObj.power"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="功率" v-model="applicationScenarioDataListObj.power"  clearable class="mid-input-little unit-select-input"  @input="handleChange($event)">
+                <template slot="append">
+                  <el-select v-model="applicationScenarioDataListObj.powerId"  clearable  @change="handleChange($event)">
+                    <el-option
+                            v-for="(item,index) in paramForAddData.powers"
+                            :key="index"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="脉宽" class="scenario-form-input-item">
-              <el-input placeholder="脉宽" v-model="applicationScenarioDataListObj.pwm"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="脉宽" v-model="applicationScenarioDataListObj.pwm"  clearable class="mid-input-little unit-select-input"  @input="handleChange($event)">
+                <template slot="append">
+                  <el-select v-model="applicationScenarioDataListObj.pwmId"  clearable  @change="handleChange($event)">
+                    <el-option
+                            v-for="(item,index) in paramForAddData.pwms"
+                            :key="index"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="重频" class="scenario-form-input-item">
-              <el-input placeholder="重频" v-model="applicationScenarioDataListObj.mhz"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="重频" v-model="applicationScenarioDataListObj.mhz"  clearable class="mid-input-little unit-input"  @input="handleChange($event)">
+                <template slot="append">Hz</template>
+              </el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="串数" class="scenario-form-input-item">
-              <el-input placeholder="串数" v-model="applicationScenarioDataListObj.numberOfStr"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="串数" v-model="applicationScenarioDataListObj.numberOfStr"  clearable class="mid-input-little"  @input="handleChange($event)"></el-input>
             </el-form-item>
           </div>
           <div>
             <el-form-item label="天线增益" class="scenario-form-input-item">
-              <el-input placeholder="天线增益" v-model="applicationScenarioDataListObj.antennaDirection"  clearable class="mid-input-little"></el-input>
+              <el-input placeholder="天线增益" v-model="applicationScenarioDataListObj.antennaDirection"  clearable class="mid-input-little unit-input"  @input="handleChange($event)">
+                <template slot="append">dB</template>
+              </el-input>
             </el-form-item>
           </div>
           <div class="calc-button">
-            <el-button  size="small" class="ground-add" @click="handleStartCalc" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4" >开始计算</el-button>
+            <el-button  size="small" class="ground-add" @click="handleStartCalc" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4" >开始计算</el-button>
           </div>
         </div>
       </el-form>
@@ -190,7 +256,7 @@
           <template slot-scope="scope">
             <el-form>
               <el-form-item>
-                <el-input class="table-input" v-model="scope.row.fsDetectionValue" placeholder="检波值" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"  />
+                <el-input class="table-input" v-model="scope.row.fsDetectionValue" placeholder="检波值" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"  />
               </el-form-item>
             </el-form>
           </template>
@@ -229,7 +295,7 @@
           <template slot-scope="scope">
             <el-form>
               <el-form-item>
-                <el-input class="table-input" v-model="scope.row.jsDetectionValue" placeholder="检波值" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"  />
+                <el-input class="table-input" v-model="scope.row.jsDetectionValue" placeholder="检波值" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"  />
               </el-form-item>
             </el-form>
           </template>
@@ -262,7 +328,7 @@
           <template slot-scope="scope">
             <el-form>
               <el-form-item>
-                <el-input class="table-input" v-model="scope.row.pwm" placeholder="脉宽" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"  />
+                <el-input class="table-input" v-model="scope.row.pwm" placeholder="脉宽" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"  />
               </el-form-item>
             </el-form>
           </template>
@@ -276,7 +342,7 @@
           <template slot-scope="scope">
             <el-form>
               <el-form-item>
-                <el-input class="table-input" v-model="scope.row.oscilloscopeValue" placeholder="示波器读数" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"  />
+                <el-input class="table-input" v-model="scope.row.oscilloscopeValue" placeholder="示波器读数" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"  />
               </el-form-item>
             </el-form>
           </template>
@@ -285,7 +351,7 @@
           <template slot-scope="scope">
             <el-form>
               <el-form-item>
-                <el-input class="table-input" v-model="scope.row.experimentalPhenomen" placeholder="实验现象" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"  />
+                <el-input class="table-input" v-model="scope.row.experimentalPhenomen" placeholder="实验现象" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"  />
               </el-form-item>
             </el-form>
           </template>
@@ -295,7 +361,7 @@
             <el-form>
               <el-form-item class="scenario-form-input-item ground-select table-select">
                 <div class="ground-parent">
-                  <el-select placeholder="请选择4D类别" v-model="scope.row.fourDTypeId"  clearable  class="short-select-short" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4" >
+                  <el-select placeholder="请选择4D类别" v-model="scope.row.fourDTypeId"  clearable  class="short-select-short" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4" >
                     <el-option
                             v-for="item in paramForAddData.fourDTypes"
                             :key="item.id"
@@ -313,7 +379,7 @@
             <el-form>
               <el-form-item class="scenario-form-input-item ground-select table-select">
                 <div class="ground-parent">
-                  <el-select placeholder="请选择设备类别" v-model="scope.row.equipTypeId"  clearable  class="short-select-short" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4" >
+                  <el-select placeholder="请选择设备类别" v-model="scope.row.equipTypeId"  clearable  class="short-select-short" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4" >
                     <el-option
                             v-for="item in paramForAddData.fourDTypes"
                             :key="item.id"
@@ -349,7 +415,7 @@
               size="small"
               @click="handleUpdateScenarioData()"
               class="update-btn"
-              :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"
+              :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"
       >
         修改
       </el-button>
@@ -357,7 +423,7 @@
               size="small"
               @click="handleDeleteScenarioData()"
               class="del-btn"
-              :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4"
+              :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4"
       >
         删除
       </el-button>
@@ -368,7 +434,7 @@
                 :model="applicationScenarioData"
         >
           <el-form-item label="实验报告" class="report-textarea" >
-            <el-input type="textarea" :rows="5" v-model="applicationScenarioData.experimentReport" placeholder="请输入实验报告" :disabled="applicationScenarioData.status != 1 && applicationScenarioData.status != 4">
+            <el-input type="textarea" :rows="5" v-model="scenarioRelation.experimentReport" placeholder="请输入实验报告" :disabled="scenarioRelation.status != 1 && scenarioRelation.status != 4">
 
             </el-input>
           </el-form-item>
@@ -557,6 +623,9 @@
       this.handleGetApplicationScenarioData();
     },
     methods: {
+      handleChange(e){
+        this.$forceUpdate()
+      },
       handleStartCalc(){
         this.applicationScenarioDataListObj.applicationScenarioId = this.applicationScenarioData.id;
         this.applicationScenarioDataListObj.scenarioRelationId = this.scenarioRelation.id;
@@ -588,6 +657,7 @@
         this.multipleSelection = val;
       },
       handleGetApplicationScenarioData(){
+        console.log("11xx")
         this.scenarioLoading = true
         fetchGetByApplicationScenarioId({scenarioRelationId:this.scenarioRelation.id}).then(res => {
           this.applicationScenarioDataList = res.data;
@@ -640,7 +710,6 @@
           if(res.code == 200){
             this.dataRecordUpdateDialog = false;
             this.handleGetApplicationScenarioData();
-
           }else {
             this.$message({
               message: res.message,
@@ -670,6 +739,7 @@
           let applicationScenarioDataListObjTemp = Object.assign({},this.applicationScenarioDataListObj)//场景的值
           applicationScenarioDataListObjTemp.id = applicationScenarioDataListUpdateObjTemp.id;
           applicationScenarioDataListObjTemp.applicationScenarioId = this.applicationScenarioData.id;;
+          applicationScenarioDataListObjTemp.scenarioRelationId = this.scenarioRelation.id;
           applicationScenarioDataListObjTemp.shotNumber = applicationScenarioDataListUpdateObjTemp.shotNumber;
           applicationScenarioDataListObjTemp.fsCouplingDegree = applicationScenarioDataListUpdateObjTemp.fsCouplingDegree;
           applicationScenarioDataListObjTemp.fsCableAttenuation = applicationScenarioDataListUpdateObjTemp.fsCableAttenuation;

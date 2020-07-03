@@ -22,9 +22,9 @@
         <div></div>
       </div>
       <div class="param-show-one">
-        <span>环境设置：{{this.applicationScenarioData.environmentName}}</span>
-        <span>温度：{{this.applicationScenarioData.temperature}}</span>
-        <span>湿度：{{this.applicationScenarioData.humidity}}</span>
+        <span>环境设置：<span v-show="applicationScenarioData.environmentName">{{this.applicationScenarioData.environmentName}}</span></span>
+        <span>温度：<span v-show="this.applicationScenarioData.temperature">{{this.applicationScenarioData.temperature + ' ℃'}}</span></span>
+        <span>湿度：<span v-show="applicationScenarioData.humidity">{{this.applicationScenarioData.humidity + ' %'}}</span></span>
       </div>
       <div class="params-border">
         <div></div>
@@ -36,17 +36,17 @@
         <div></div>
       </div>
       <div class="param-show-one">
-        <span>频率：{{this.applicationScenarioData.frequency}}</span>
-        <span>功率：{{this.applicationScenarioData.power}}</span>
-        <span>脉宽：{{this.applicationScenarioData.pwm}}</span>
-        <span>重频：{{this.applicationScenarioData.mhz}}</span>
+        <span>频率：<span v-show="applicationScenarioData.frequency&&this.applicationScenarioData.frequencyName">{{this.applicationScenarioData.frequency + this.applicationScenarioData.frequencyName}}</span></span>
+        <span>功率：<span v-show="applicationScenarioData.power&&this.applicationScenarioData.powerName">{{this.applicationScenarioData.power + this.applicationScenarioData.powerName}}</span></span>
+        <span>脉宽：<span v-show="applicationScenarioData.pwm&&this.applicationScenarioData.pwmName">{{this.applicationScenarioData.pwm + this.applicationScenarioData.pwmName}}</span></span>
+        <span>重频：<span v-show="applicationScenarioData.mhz">{{this.applicationScenarioData.mhz +  'Hz'}}</span></span>
         <span>串数：{{this.applicationScenarioData.numberOfStr}}</span>
       </div>
       <div class="params-border">
         <div></div>
       </div>
       <div class="param-show-one">
-        <span>天线增益：{{this.applicationScenarioData.antennaDirection}}</span>
+        <span>天线增益：<span v-show="applicationScenarioData.antennaDirection">{{this.applicationScenarioData.antennaDirection +' dB'}}</span></span>
       </div>
       <div class="params-border">
         <div></div>
@@ -62,20 +62,20 @@
         <span>类别：{{this.applicationScenarioData.category}}</span>
         <span>型号：{{this.applicationScenarioData.model}}</span>
         <span>样本号：{{this.applicationScenarioData.sampleNo}}</span>
-        <span>距离：{{this.applicationScenarioData.distance}}</span>
-        <span>角度：{{this.applicationScenarioData.angle}}</span>
+        <span>距离：<span v-show="applicationScenarioData.distance&&applicationScenarioData.distanceName">{{this.applicationScenarioData.distance + this.applicationScenarioData.distanceName}}</span></span>
+        <span>角度：<span v-show="applicationScenarioData.angle&&applicationScenarioData.angleName">{{this.applicationScenarioData.angle + this.applicationScenarioData.angleName}}</span></span>
       </div>
       <div class="param-show-one" v-show="this.applicationScenarioData.effectorId == 1">
-        <span>工作频率：{{this.applicationScenarioData.workingFrequency}}</span>
-        <span>带宽：{{this.applicationScenarioData.bandwidth}}</span>
-        <span>效应物天线增益：{{this.applicationScenarioData.antennaGain}}</span>
+        <span>工作频率：<span v-show="applicationScenarioData.workingFrequency&&applicationScenarioData.workingFrequencyName">{{this.applicationScenarioData.workingFrequency + this.applicationScenarioData.workingFrequencyName}}</span></span>
+        <span>带宽：<span v-show="applicationScenarioData.bandwidth&&applicationScenarioData.bandwidthName">{{this.applicationScenarioData.bandwidth + this.applicationScenarioData.bandwidthName}}</span></span>
+        <span>效应物天线增益：<span v-show="applicationScenarioData.antennaGain">{{this.applicationScenarioData.antennaGain +' dB'}}</span></span>
         <span></span>
       </div>
       <div class="param-show-one" v-show="this.applicationScenarioData.effectorId == 2">
         <span>类别：{{this.applicationScenarioData.category}}</span>
         <span>型号：{{this.applicationScenarioData.model}}</span>
-        <span>距离：{{this.applicationScenarioData.distance}}</span>
-        <span>角度：{{this.applicationScenarioData.angle}}</span>
+        <span>距离：<span v-show="applicationScenarioData.distance&&applicationScenarioData.distanceName">{{this.applicationScenarioData.distance + this.applicationScenarioData.distanceName}}</span></span>
+        <span>角度：<span v-show="applicationScenarioData.angle&&applicationScenarioData.angleName">{{this.applicationScenarioData.angle + this.applicationScenarioData.angleName}}</span></span>
       </div>
       <div class="param-show-one" v-show="this.applicationScenarioData.effectorId == 2">
         <span>后门类型：{{this.applicationScenarioData.backDoorName}}</span>
@@ -86,20 +86,20 @@
         <div></div>
       </div>
       <div class="param-show-one" style="color: #006837">
-        <span>定耦耦合度：{{this.applicationScenarioData.fsCouplingDegree}}</span>
-        <span>电缆衰减：{{this.applicationScenarioData.fsAttenuator}}</span>
-        <span>衰减器：{{this.applicationScenarioData.fsAttenuator}}</span>
-        <span>方向角：{{this.applicationScenarioData.fsBearing}}</span>
-        <span>俯仰角：{{this.applicationScenarioData.fsPitchAngle}}</span>
+        <span>定耦耦合度：<span v-show="applicationScenarioData.fsCouplingDegree">{{this.applicationScenarioData.fsCouplingDegree +' dB'}}</span></span>
+        <span>电缆衰减：<span v-show="applicationScenarioData.fsAttenuator">{{this.applicationScenarioData.fsAttenuator +' dB'}}</span></span>
+        <span>衰减器：<span v-show="applicationScenarioData.fsAttenuator">{{this.applicationScenarioData.fsAttenuator +' dB'}}</span></span>
+        <span>方向角：<span v-show="applicationScenarioData.fsBearing">{{this.applicationScenarioData.fsBearing +' °'}}</span></span>
+        <span>俯仰角：<span v-show="applicationScenarioData.fsPitchAngle">{{this.applicationScenarioData.fsPitchAngle +' °'}}</span></span>
       </div>
       <div class="params-border">
         <div></div>
       </div>
       <div class="param-show-one" style="color: #6a2d94">
-        <span>定耦耦合度：{{this.applicationScenarioData.jsCouplingDegree}}</span>
-        <span>电缆衰减：{{this.applicationScenarioData.jsAttenuator}}</span>
-        <span>衰减器：{{this.applicationScenarioData.jsAttenuator}}</span>
-        <span>接收天线增益：{{this.applicationScenarioData.jsAntennaGain}}</span>
+        <span>定耦耦合度：<span v-show="applicationScenarioData.jsCouplingDegree">{{this.applicationScenarioData.jsCouplingDegree +' dB'}}</span></span>
+        <span>电缆衰减：<span v-show="applicationScenarioData.jsAttenuator">{{this.applicationScenarioData.jsAttenuator +' dB'}}</span></span>
+        <span>衰减器：<span v-show="applicationScenarioData.jsAttenuator">{{this.applicationScenarioData.jsAttenuator +' dB'}}</span></span>
+        <span>接收天线增益：<span v-show="applicationScenarioData.jsAntennaGain">{{this.applicationScenarioData.jsAntennaGain +' dB'}}</span></span>
       </div>
 
       <!--<div class="temp-img">-->

@@ -35,3 +35,10 @@ export function fetchUpdateApplicationScenario(data) {
     data: data
   })
 }
+export function fetchGetListPage(params) {
+  return request({
+    url:"/applicationScenarioData/getListPage",
+    method:'get',
+    params: params
+  })
+}

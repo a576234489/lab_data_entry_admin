@@ -301,23 +301,27 @@
     font-size: 12px;
   }
   .router-name {
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 25px;
     font-size: 14px;
     padding: 0 65px 0 20px;
     height: 32px;
     line-height: 32px;
+    border:1px solid #cceff5;
+    background:#fafcfd
   }
   .user-info {
     width: 220px;
     height: 32px;
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 25px;
     font-size: 14px;
     display: flex;
     padding: 0 20px;
     align-items: center;
     justify-content: space-between;
+    border:1px solid #cceff5;
+    background:#fafcfd
   }
   .message {
     width: 40px;

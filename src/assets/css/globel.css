@@ -82,7 +82,8 @@ img::after{
 
 /*侧滑菜单选中颜色及背景*/
 .sub-menu .router-link-active .is-active,.side-bar-one .router-link-active .is-active {
-  background-color: #f3f3f3 !important;
+  /*background-color: #f3f3f3 !important;*/
+  background-color: #fff !important;
   color: #4d83ff !important;
   border-right: 1px solid #ccc;
 }
@@ -96,6 +97,12 @@ img::after{
 }
 
 /*主界面整体布局设置*/
+.el-table .warning-row {
+  background: #f7faff;
+}
+.el-table .success-row {
+  background: #ebf1fb;
+}
 .app-main {
   background-color: #f3f3f3;
 }
@@ -121,10 +128,14 @@ img::after{
 .main-search {
   border-radius: 10px;
   font-size: 14px;
+  border:1px solid #cceff5;
+  background:#fafcfd
 }
 .operate-container{
-  margin-top: 10px;
-  border-radius: 10px 10px 0 0;
+  margin:10px 0;
+  border-radius: 10px;
+  border:1px solid #cceff5;
+  background:#fafcfd
 }
 .main-search-info {
   display: flex;
@@ -134,20 +145,24 @@ img::after{
 .main-search-info>div {
   display: flex;
 }
-.main-search-info button:nth-child(1){
-  background-color: #f3f3f3;
-  color: #000;
+.shadow-button{
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* CSS3 */
 }
-.main-search-info button,.btn-add,.batch-button {
-  height: 24px;
-  line-height: 24px;
-  width: 55px;
-  padding: 0;
-}
-.main-search-info button:nth-child(2),.btn-add,.batch-button {
-  background-color: #4d83ff;
-  color: #fff;
-}
+/*.main-search-info button:nth-child(1){*/
+  /*background-color: #f3f3f3;*/
+  /*color: #000;*/
+/*}*/
+/*.main-search-info button,.btn-add,.batch-button {*/
+  /*height: 24px;*/
+  /*line-height: 24px;*/
+  /*width: 55px;*/
+  /*padding: 0;*/
+/*}*/
+/*.main-search-info button:nth-child(2),.btn-add,.batch-button {*/
+  /*background-color: #4d83ff;*/
+  /*color: #fff;*/
+/*}*/
 .operate-container .el-card__body{
   display: flex;
   justify-content: space-between;
@@ -157,12 +172,12 @@ img::after{
 }
 
 .export-excel {
-  height: 24px;
-  line-height: 24px;
-  width: 130px;
-  padding: 0;
-  background-color: #4d83ff;
-  color: #fff;
+  /*height: 24px;*/
+  /*line-height: 24px;*/
+  /*width: 130px;*/
+  /*padding: 0;*/
+  /*background-color: #4d83ff;*/
+  /*color: #fff;*/
   margin-left: 10px;
 }
 .export-excel:hover,.export-excel:active,.export-excel:focus, .btn-add:hover,.btn-add:active,.btn-add:focus,.batch-button:hover,.batch-button:active,.batch-button:focus {
@@ -170,25 +185,31 @@ img::after{
   color: #fff;
 }
 .table-container {
-  padding: 0 20px;
-  background-color: #fff;
-  position: relative;
-  top: -1px;
-  width: calc(100% - 42px);
-  left: 1px;
+  /*padding: 0 20px;*/
+  /*background-color: #fff;*/
+  width: 100%;
+  /*position: relative;*/
+  /*top: -1px;*/
+  /*width: calc(100% - 42px);*/
+  /*left: 1px;*/
+  border:1px solid #cceff5;
+  border-bottom: none;
+  background:#fafcfd
 }
 .batch-operate-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  border-radius: 0 0 10px 10px;
+  /*background-color: #fff;*/
   padding: 20px;
   position: relative;
   top: -1px;
-  width: calc(100% - 42px);
+  /*width: calc(100% - 42px);*/
   font-size: 14px;
   left: 1px;
+  border:1px solid #cceff5;
+  border-top: none;
+  background:#fafcfd
 }
 .batch-button {
   margin-left: 12px;
@@ -201,6 +222,26 @@ img::after{
   color: #4d83ff;
 }
 /*应用场景添加弹出框*/
+.unit-select-input .el-input-group__append input {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+}
+.unit-select-input .el-input-group__append:hover {
+  background-color: #4cc9f8;
+}
+.unit-select-input .el-input-group__append span {
+  display: none;
+}
+.unit-input .el-input-group__append{
+  padding: 0 12px;
+}
+.unit-input-angle .el-input-group__append{
+  padding: 0 17px;
+}
+.el-form-item__content .el-input-group {
+  vertical-align: middle;
+}
 .scenario-add-Dialog .el-dialog__title,.data-record-dialog .el-dialog__title,.data-record-update-dialog .el-dialog__title,.data-show-dialog,.el-dialog__title{
   font-size: 14px;
   font-weight: 700;
@@ -328,7 +369,7 @@ img::after{
 }
 .scenario-type-img img {
   /*width: 468px;*/
-  width: 100%;
+  width: 60%;
   height: 180px;
   margin-top: 17px;
 }
@@ -395,10 +436,10 @@ img::after{
   color: #006837 !important;
 }
 .lab-data-table thead tr th:nth-child(n + 6):nth-child(-n + 16) {
-  color: #6a2d94
+  color: #6a2d94 !important;
 }
 .lab-data-table thead tr th:nth-child(n + 16):nth-child(-n + 28) {
-  color: #006837
+  color: #006837 !important;
 }
   /*滚动条样式*/
 .scenario-add-Dialog .content::-webkit-scrollbar,.data-record-dialog  .content::-webkit-scrollbar,.data-show-dialog  .content::-webkit-scrollbar {

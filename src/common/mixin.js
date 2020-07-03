@@ -60,7 +60,12 @@ export const applicationScenarioMixin = {
         microwaveSources: [],
         effectors: [],
         backDoors: [],
-        fourDTypes: []
+        fourDTypes: [],
+        frequencies: [],
+        powers:[],
+        angles:[],
+        pwms:[],
+        distances:[],
       },
     }
   },

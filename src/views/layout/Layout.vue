@@ -71,9 +71,10 @@
     width: 200px !important;
     overflow: hidden;
     transition-duration: 0.3s;
-      transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     z-index: 99;
     border-right: 1px solid #e3e3e3;
+    background-color: #1c1c1e;
   }
   .hideSideBar .sidebar-container{
     width: 36px !important;

@@ -4,11 +4,12 @@
       <div class="menu-head-content"></div>
     </div>
     <el-menu
-            background-color="#fff"
-            text-color="#3e3a39"
+            background-color="#1c1c1e"
+            text-color="#fff"
             :default-active="$route.path"
             active-text-color="#409EFF"
             :collapse="isCollapse"
+            class="side-menu"
     >
       <side-bar-item :routes="routes" id="side-bar-item"></side-bar-item>
     </el-menu>
@@ -41,6 +42,9 @@
 </script>
 
 <style scoped>
+  .side-menu {
+    width: 100%;
+  }
   .menu-head {
     height: 32px;
     padding: 14px 20px 8px ;

@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack');
+
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
@@ -14,7 +16,15 @@ module.exports = {
         network:'@/network',
         views:'@/views'
       }
-    }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
+      })
+    ]
+
   },
   chainWebpack: config => {
     config.module

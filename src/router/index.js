@@ -18,6 +18,9 @@ const DataRecord = ()=>import('views/dataRecord/DataRecord')
 const DataRecordAudit = ()=>import('views/dataRecordAudit/DataRecordAudit')
 const DataRecordViewAudit = ()=>import('views/dataRecordViewAudit/DataRecordViewAudit')
 const DataQueryStatistics = ()=>import('views/dataQueryStatistics/DataQueryStatistics')
+const EffectEvaluation = ()=>import('views/effectEvaluation/EffectEvaluation')
+const DataAnalysis = ()=>import('views/dataAnalysis/DataAnalysis')
+const DetectionCurve = ()=>import('views/DetectionCurve/DetectionCurve')
 
 
 
@@ -172,6 +175,20 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path:'/effectEvaluationManagement',
+    component:Layout,
+    meta:{title:'效能评估管理',icon:'home'},
+    name:'effectEvaluationManagement',
+    children:[
+      {
+        path:'effectEvaluation',
+        component:EffectEvaluation,
+        name:'effectEvaluation',
+        meta:{title:'效能评估',icon:'gen'},
+      },
+    ]
+  },
+  {
     path:'/auditManagement',
     component:Layout,
     meta:{title:'审核管理',icon:'home'},
@@ -202,6 +219,34 @@ export const asyncRouterMap = [
         component:DataQueryStatistics,
         name:'dataQueryStatistics',
         meta:{title:'数据查询统计',icon:'gen'},
+      },
+    ]
+  },
+  {
+    path:'/dataAnalysisManagement',
+    component:Layout,
+    meta:{title:'数据分析管理',icon:'home'},
+    name:'dataAnalysisManagement',
+    children:[
+      {
+        path:'dataAnalysis',
+        component:DataAnalysis,
+        name:'dataAnalysis',
+        meta:{title:'数据分析',icon:'gen'},
+      },
+    ]
+  },
+  {
+    path:'/detectionCurveManagement',
+    component:Layout,
+    meta:{title:'检波曲线管理',icon:'home'},
+    name:'detectionCurveManagement',
+    children:[
+      {
+        path:'detectionCurve',
+        component:DetectionCurve,
+        name:'detectionCurve',
+        meta:{title:'检波曲线',icon:'gen'},
       },
     ]
   }

@@ -10,12 +10,14 @@
           <el-button
                   size="small"
                   @click="handleResetSearch()"
+                  class="shadow-button"
           >
             重置
           </el-button>
           <el-button
                   size="small"
                   @click="handleSearchList()"
+                  class="shadow-button"
           >
             搜索
           </el-button>
@@ -50,9 +52,9 @@
       </div>
       <div>
         <el-button
-                class="next-step"
                 size="mini"
                 @click="handleAdd(1)"
+                class="shadow-button"
         >
           添加
         </el-button>
@@ -72,6 +74,8 @@
               v-loading="listLoading"
               @selection-change="handleScenarioSelectionChange"
               border
+              :row-class-name="tableRowClassName"
+              :header-cell-style="tableHeaderColor"
       >
         <el-table-column type="selection" width="60" align="center"></el-table-column>
         <el-table-column label="编号" width="100" align="center" :sortable="true" :sort-method="sortByDate">
@@ -86,17 +90,18 @@
         <el-table-column label="创建日期" align="center" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{scope.row.createTime | formatCreateTime}}</template>
         </el-table-column>
-        <el-table-column label="操作"  align="center" width="115px">
+        <el-table-column label="操作"  align="center" width="165px">
           <template slot-scope="scope">
             <p>
               <el-button
                       size="mini"
-                      type="text"
+                      class="shadow-button"
                       @click="handleShow(scope.$index, scope.row)">查看
               </el-button>
               <el-button
                       size="mini"
-                      type="text"
+                      type="danger"
+                      class="shadow-button"
                       @click="handleDelete(scope.$index, scope.row)">删除
               </el-button>
             </p>
@@ -119,7 +124,7 @@
           </el-option>
         </el-select>
         <el-button
-                class="batch-button"
+                class="batch-button shadow-button"
                 type="primary"
                 size="small"
                 @click="handleBatchOperate()"
@@ -144,7 +149,7 @@
             :title="scenarioAddTitle"
             :visible.sync="scenarioAddDialog"
             :append-to-body='true'
-            width="40%"
+            width="60%"
             class="scenario-add-Dialog"
             :close-on-click-modal = 'false'
     >
@@ -208,10 +213,14 @@
             </div>
           </el-form-item>
           <el-form-item label="温度" class="scenario-form-input-item">
-            <el-input placeholder="温度" v-model="applicationScenarioData.temperature"  clearable class="short-input"></el-input>
+            <el-input placeholder="温度" v-model="applicationScenarioData.temperature"  clearable class="short-input unit-input">
+              <template slot="append">℃</template>
+            </el-input>
           </el-form-item>
           <el-form-item label="湿度" class="scenario-form-input-item">
-            <el-input placeholder="湿度" v-model="applicationScenarioData.humidity"  clearable class="short-input"></el-input>
+            <el-input placeholder="湿度" v-model="applicationScenarioData.humidity"  clearable class="short-input unit-input">
+              <template slot="append">%</template>
+            </el-input>
           </el-form-item>
         </div>
           <div v-show="showStatus[2]" class="scenario-params">
@@ -229,33 +238,70 @@
             </el-form-item>
             <div class="params-one">
               <el-form-item label="频率" class="scenario-form-input-item">
-                <el-input placeholder="频率" v-model="applicationScenarioData.frequency"  clearable class="mid-input"></el-input>
+                <el-input placeholder="频率" v-model="applicationScenarioData.frequency"  clearable class="mid-input unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.frequencyId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.frequencies"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="功率" class="scenario-form-input-item">
-                <el-input placeholder="功率" v-model="applicationScenarioData.power"  clearable class="mid-input"></el-input>
+                <el-input placeholder="功率" v-model="applicationScenarioData.power"  clearable class="mid-input unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.powerId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.powers"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="脉宽" class="scenario-form-input-item">
-                <el-input placeholder="脉宽" v-model="applicationScenarioData.pwm"  clearable class="mid-input"></el-input>
+                <el-input placeholder="脉宽" v-model="applicationScenarioData.pwm"  clearable class="mid-input unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.pwmId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.pwms"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
             </div>
             <div class="params-two">
               <el-form-item label="重频" class="scenario-form-input-item">
-                <el-input placeholder="重频" v-model="applicationScenarioData.mhz"  clearable class="mid-input"></el-input>
+                <el-input placeholder="重频" v-model="applicationScenarioData.mhz"  clearable class="mid-input short-input unit-input">
+                  <template slot="append">Hz</template>
+                </el-input>
               </el-form-item>
               <el-form-item label="串数" class="scenario-form-input-item">
                 <el-input placeholder="串数" v-model="applicationScenarioData.numberOfStr"  clearable class="mid-input"></el-input>
               </el-form-item>
 
-              <div style="width: 33%;">
+              <div>
 
               </div>
-             </div>
+            </div>
             <div class="params-border">
               <div></div>
             </div>
             <el-form-item label="天线增益" class="scenario-form-input-item ">
-              <div class="ground-parent mid-input-long-parent">
-                <el-input placeholder="增益值" v-model="applicationScenarioData.antennaDirection"  clearable class="mid-input-long tx-mid-input-long "></el-input>
+              <div class="ground-parent mid-input-long-parent" style="padding-bottom: 5px">
+                <el-input placeholder="增益值" v-model="applicationScenarioData.antennaDirection"  clearable class="mid-input-long tx-mid-input-long unit-input">
+                  <template slot="append">dB</template>
+                </el-input>
                 <el-button  size="small" class="in-radiation-direction">导入辐射方向</el-button>
               </div>
             </el-form-item>
@@ -289,7 +335,18 @@
                 <el-input placeholder="样本号" v-model="applicationScenarioData.sampleNo"  clearable class="mid-input-little"></el-input>
               </el-form-item>
               <el-form-item label="距离" class="scenario-form-input-item" v-show="applicationScenarioData.effectorId == 1 || applicationScenarioData.effectorId == 2">
-                <el-input placeholder="距离" v-model="applicationScenarioData.distance"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="距离" v-model="applicationScenarioData.distance"  clearable class="mid-input-little unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.distanceId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.distances"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
             </div>
             <div class="params-three params-three-hm" v-show="applicationScenarioData.effectorId == 2">
@@ -300,24 +357,81 @@
                 <el-input placeholder="型号" v-model="applicationScenarioData.model"  clearable class="mid-input-little" ></el-input>
               </el-form-item>
               <el-form-item label="距离" class="scenario-form-input-item" v-show="applicationScenarioData.effectorId == 1 || applicationScenarioData.effectorId == 2">
-                <el-input placeholder="距离" v-model="applicationScenarioData.distance"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="距离" v-model="applicationScenarioData.distance"  clearable class="mid-input-little unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.distanceId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.distances"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="角度" class="scenario-form-input-item" v-show="applicationScenarioData.effectorId == 1 || applicationScenarioData.effectorId == 2">
-                <el-input placeholder="角度" v-model="applicationScenarioData.angle"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="角度" v-model="applicationScenarioData.angle"  clearable class="mid-input-little unit-select-input">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.angleId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.angles"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
             </div>
             <div class="params-four" v-show="applicationScenarioData.effectorId == 1">
               <el-form-item label="角度" class="scenario-form-input-item">
-                <el-input placeholder="角度" v-model="applicationScenarioData.angle"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="角度" v-model="applicationScenarioData.angle"  clearable class="unit-select-input mid-input-little">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.angleId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.angles"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="工作频率" class="scenario-form-input-item">
-                <el-input placeholder="工作频率" v-model="applicationScenarioData.workingFrequency"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="工作频率" v-model="applicationScenarioData.workingFrequency"  clearable class="unit-select-input mid-input-little">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.workingFrequencyId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.frequencies"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="带宽" class="scenario-form-input-item">
-                <el-input placeholder="带宽" v-model="applicationScenarioData.bandwidth"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="带宽" v-model="applicationScenarioData.bandwidth"  clearable class="unit-select-input mid-input-little">
+                  <template slot="append">
+                    <el-select v-model="applicationScenarioData.bandwidthId"  clearable  >
+                      <el-option
+                              v-for="(item,index) in paramForAddData.frequencies"
+                              :key="index"
+                              :label="item.name"
+                              :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-input>
               </el-form-item>
               <el-form-item label="天线增益" class="scenario-form-input-item">
-                <el-input placeholder="天线增益" v-model="applicationScenarioData.antennaGain"  clearable class="mid-input-little"></el-input>
+                <el-input placeholder="天线增益" v-model="applicationScenarioData.antennaGain"  clearable class="unit-input mid-input-little">
+                  <template slot="append">dB</template>
+                </el-input>
               </el-form-item>
             </div>
             <div class="params-four" v-show="applicationScenarioData.effectorId == 1">
@@ -351,21 +465,31 @@
               <div>辐射部分</div>
               <div class="param-one">
                 <el-form-item label="定耦耦合度" class="scenario-form-input-item">
-                  <el-input placeholder="定耦耦合度" v-model="applicationScenarioData.fsCouplingDegree"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="定耦耦合度" v-model="applicationScenarioData.fsCouplingDegree"  clearable class="unit-input mid-input-little" >
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="电缆衰减" class="scenario-form-input-item">
-                  <el-input placeholder="电缆衰减" v-model="applicationScenarioData.fsCableAttenuation"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="电缆衰减" v-model="applicationScenarioData.fsCableAttenuation"  clearable class="unit-input mid-input-little" >
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="衰减器" class="scenario-form-input-item">
-                  <el-input placeholder="衰减器" v-model="applicationScenarioData.fsAttenuator"  clearable class="mid-input-little"></el-input>
+                  <el-input placeholder="衰减器" v-model="applicationScenarioData.fsAttenuator"  clearable class="unit-input mid-input-little">
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
               </div>
               <div class="param-two">
                 <el-form-item label="辐射方向角" class="scenario-form-input-item">
-                  <el-input placeholder="辐射方向角" v-model="applicationScenarioData.fsBearing"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="辐射方向角" v-model="applicationScenarioData.fsBearing"  clearable class="unit-input mid-input-little unit-input-angle" >
+                    <template slot="append">°</template>
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="辐射俯仰角" class="scenario-form-input-item">
-                  <el-input placeholder="辐射俯仰角" v-model="applicationScenarioData.fsPitchAngle"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="辐射俯仰角" v-model="applicationScenarioData.fsPitchAngle"  clearable class="unit-input mid-input-little unit-input-angle" >
+                    <template slot="append">°</template>
+                  </el-input>
                 </el-form-item>
                 <div style="flex: 1">
 
@@ -379,18 +503,26 @@
               <div>接收部分</div>
               <div class="param-one">
                 <el-form-item label="定耦耦合度" class="scenario-form-input-item">
-                  <el-input placeholder="定耦耦合度" v-model="applicationScenarioData.jsCouplingDegree"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="定耦耦合度" v-model="applicationScenarioData.jsCouplingDegree"  clearable class="unit-input mid-input-little" >
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="电缆衰减" class="scenario-form-input-item">
-                  <el-input placeholder="电缆衰减" v-model="applicationScenarioData.jsCableAttenuation"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="电缆衰减" v-model="applicationScenarioData.jsCableAttenuation"  clearable class="unit-input mid-input-little" >
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="衰减器" class="scenario-form-input-item">
-                  <el-input placeholder="衰减器" v-model="applicationScenarioData.jsAttenuator"  clearable class="mid-input-little"></el-input>
+                  <el-input placeholder="衰减器" v-model="applicationScenarioData.jsAttenuator"  clearable class="unit-input mid-input-little">
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
               </div>
               <div class="param-one">
                 <el-form-item label="天线增益" class="scenario-form-input-item">
-                  <el-input placeholder="天线增益" v-model="applicationScenarioData.jsAntennaGain"  clearable class="mid-input-little" ></el-input>
+                  <el-input placeholder="天线增益" v-model="applicationScenarioData.jsAntennaGain"  clearable class="unit-input mid-input-little" >
+                    <template slot="append">dB</template>
+                  </el-input>
                 </el-form-item>
                 <div></div>
                 <div></div>
@@ -402,7 +534,7 @@
       </el-form>
       <div class="dialog-footer">
         <el-button size="small" @click="handlePrev" class="next-step" v-show="active != 0 && active != 4 && active != 3">上一步</el-button>
-        <el-button  size="small" class="next-step"  @click="handleNextStep" v-show="active != 4 && active != 3">下一步</el-button>
+        <el-button  size="small" class="next-step"  @click="handleNextStep" v-show="active != 4 && active != 3 && applicationScenarioData.sceneId != ''">下一步</el-button>
         <el-button size="small" @click="handlePrev" class="next-step" v-show="applicationScenarioData.effectorId != null && applicationScenarioData.effectorId != '' && active == 3">上一步</el-button>
         <el-button  size="small" class="next-step"  @click="handleNextStep" v-show="applicationScenarioData.effectorId != null&& applicationScenarioData.effectorId != '' && active == 3">下一步</el-button>
         <!--<el-button size="small" @click="handleGoDataRecordDialog(1)" class="next-step data-record" v-show="active == 4 && addType == 1">进行实验数据记录</el-button>-->
@@ -414,7 +546,7 @@
             :title="applicationScenarioData.scenarioName"
             :visible.sync="dataShowDialog"
             :append-to-body='true'
-            width="40%"
+            width="60%"
             class="data-show-dialog"
     >
       <data-show
@@ -502,8 +634,14 @@
     microwaveSourceId: 1,
     microwaveSourceName: null,
     frequency: null,
+    frequencyId:1,
+    frequencyName: null,
     power: null,
+    powerId: 1,
+    powerName: null,
     pwm: null,
+    pwmId: 1,
+    pwmName: 1,
     mhz: null,
     numberOfStr:null,
     antennaDirection:null,
@@ -513,9 +651,17 @@
     model: null,
     sampleNo: null,
     distance: null,
+    distanceId:1,
+    distanceName: null,
     angle: null,
+    angleId: 1,
+    angleName: null,
     workingFrequency: null,
+    workingFrequencyId: 1,
+    workingFrequencyName: null,
     bandwidth: null,
+    bandwidthId: 1,
+    bandwidthName: null,
     antennaGain: null,
     backDoorId: 1,
     backDoorName: null,
@@ -654,6 +800,19 @@
       // this.handleGetApplicationScenarioData();
     },
     methods: {
+      tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex === 0) {
+          return 'color: #000;font-weight:500;font-size:14px;font-weight:700;text-align:center'
+        }
+      },
+
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex % 2 == 1) {
+          return 'warning-row';
+        } else {
+          return 'success-row';
+        }
+      },
       handleShow(index,row){
         this.applicationScenarioData = JSON.parse(JSON.stringify(row));
         //设置场景类型名称
@@ -690,6 +849,48 @@
         this.paramForAddData.backDoors.find( item => {
           if(item.id == row.backDoorId){
             this.applicationScenarioData.backDoorName = item.name
+          }
+        })
+        //设置频率单位s
+        this.paramForAddData.frequencies.find( item => {
+          if(item.id == row.frequencyId){
+            this.applicationScenarioData.frequencyName = item.name
+          }
+        })
+        //设置功率单位
+        this.paramForAddData.powers.find( item => {
+          if(item.id == row.powerId){
+            this.applicationScenarioData.powerName = item.name
+          }
+        })
+        //设置脉宽单位
+        this.paramForAddData.pwms.find( item => {
+          if(item.id == row.pwmId){
+            this.applicationScenarioData.pwmName = item.name
+          }
+        })
+        //设置距离单位
+        this.paramForAddData.distances.find( item => {
+          if(item.id == row.distanceId){
+            this.applicationScenarioData.distanceName = item.name
+          }
+        })
+        //设置工作频率单位
+        this.paramForAddData.frequencies.find( item => {
+          if(item.id == row.workingFrequencyId){
+            this.applicationScenarioData.workingFrequencyName = item.name
+          }
+        })
+        //设置带宽单位
+        this.paramForAddData.frequencies.find( item => {
+          if(item.id == row.bandwidthId){
+            this.applicationScenarioData.bandwidthName = item.name
+          }
+        })
+        //设置带宽单位
+        this.paramForAddData.angles.find( item => {
+          if(item.id == row.angleId){
+            this.applicationScenarioData.angleName = item.name
           }
         })
 
@@ -845,37 +1046,6 @@
       },
 
       handleGoDataRecordDialog(type){
-        // let isAdd = true;
-        // if(!type){
-        //   type = this.applicationScenarioData.type;
-        //   isAdd = false;
-        // }
-        // if(isAdd){
-        //   this.applicationScenarioData.umsId  = this.$store.getters.id;
-        //   this.applicationScenarioData.type = type;
-        //   fetchScenarioCreate(this.applicationScenarioData).then(res => {
-        //     if(res.code == 200) {
-        //       this.scenarioAddDialog = false;
-        //       this.dataRecordDialog = true;
-        //       console.log(res);
-        //       this.applicationScenarioData.id = res.data;
-        //       Object.assign(this.applicationScenarioDataListObj,this.applicationScenarioData);
-        //       setTimeout(()=>{
-        //         this.$refs.dataRecordScenarioChild.handleGetApplicationScenarioData();},200)
-        //     }else {
-        //       this.$message({
-        //         message: res.message,
-        //         type: 'error',
-        //         duration: 1000
-        //       });
-        //     }
-        //   })
-        // }else {
-        //   this.dataShowDialog = false;
-        //   this.dataRecordDialog = true;
-        //   setTimeout(()=>{
-        //     this.$refs.dataRecordScenarioChild.handleGetApplicationScenarioData();},200)
-        // }
         this.applicationScenarioData.umsId  = this.$store.getters.id;
         fetchScenarioCreate(this.applicationScenarioData).then(res => {
           if(res.code == 200) {
@@ -892,6 +1062,8 @@
 
       },
       handlePrev() {
+        this.scenarioAddDialog = false
+        setTimeout(()=>{this.scenarioAddDialog = true},400)
         if (this.active > 0 && this.active < this.showStatus.length) {
           this.active--;
           this.hideAll();
@@ -900,6 +1072,8 @@
         }
       },
       handleNextStep() {
+        this.scenarioAddDialog = false
+        setTimeout(()=>{this.scenarioAddDialog = true},400)
         console.log(this.active,this.showStatus.length)
         console.log(this.showStatus)
         if (this.active <= this.showStatus.length - 1) {
@@ -1008,6 +1182,9 @@
 </script>
 
 <style scoped>
+  .params-two>div,.params-one>div,.params-three>div,.params-four>div {
+    flex: 1;
+  }
   .measure-module .param-one,.measure-module .param-two,.js-module .param-one,.js-module .param-two {
     display: flex;
   }
